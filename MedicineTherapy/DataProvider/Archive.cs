@@ -24,7 +24,7 @@ namespace MedicineTherapy.DataProvider
                 ObservableCollection<Patient> listPatients = new ObservableCollection<Patient>();
                 ObservableCollection<Medicine> medicineList = new ObservableCollection<Medicine>();
 
-                connection = new SqlConnection("Data Source =.; Initial Catalog = Farma; User ID=sa; Password=Visaris-SQL2008R2;");
+                
   
                 command = new SqlCommand("", connection);
                 connection.Open();
@@ -122,6 +122,120 @@ namespace MedicineTherapy.DataProvider
             }
 
             return listPatients;
+        }
+
+        public ObservableCollection<Medicine> GetMedicines()
+        {
+            SqlConnection connection = null;
+            SqlCommand command = null;
+            try
+            {
+
+                Patient patient = new Patient();
+                Medicine medicine = new Medicine();
+                ObservableCollection<Patient> listPatients = new ObservableCollection<Patient>();
+                ObservableCollection<Medicine> medicineList = new ObservableCollection<Medicine>();
+
+                
+
+                command = new SqlCommand("", connection);
+                connection.Open();
+
+
+                medicineList = GetAllMedicines(command);
+
+
+                foreach (Patient patientInTheList in listPatients)
+                {
+                    medicine = new Medicine();
+                    medicineList = new ObservableCollection<Medicine>();
+                    string query = @"
+                                SELECT m.MedicineID, m.MedicineName, m.GroupID
+                                FROM PatientMedicine pm
+                                JOIN Patients p on pm.PersonID = p.PersonID
+                                JOIN Medicine m on m.MedicineID = pm.MedicineID
+                                WHERE p.PersonID = @PersonID
+                                order by p.PersonID
+                            ";
+
+
+                    command.CommandText = query;
+
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@PersonID", patientInTheList.PersonID);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                medicine = new Medicine();
+
+                                medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
+                                medicine.MedicineName = reader["MedicineName"] as string;
+                                var medicineGroupID = reader["GroupID"] as int? ?? default(int);
+                                medicine.MedicineType = (MedicineType)Enum.ToObject(typeof(MedicineType), medicineGroupID);
+
+                                medicineList.Add(medicine);
+                            }
+                            patientInTheList.MedicineList = medicineList;
+                        }
+                        else
+                        {
+                            return medicineList;
+                        }
+                    }
+                }
+
+
+
+
+                return medicineList;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+
+            }
+
+
+        }
+
+        private ObservableCollection<Medicine> GetAllMedicines(SqlCommand command)
+        {
+            Medicine medicine = new Medicine();
+            ObservableCollection<Medicine> listMedicines = new ObservableCollection<Medicine>();
+            string query = @"SELECT * from Medicines";
+
+            command.CommandText = query;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        medicine = new Medicine();
+
+                        medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
+                        medicine.MedicineName = reader["MedicineName"] as string;
+                        var medicineGroupID = reader["GroupID"] as int? ?? default(int);
+                        medicine.MedicineType = (MedicineType)Enum.ToObject(typeof(MedicineType), medicineGroupID);
+                        listMedicines.Add(medicine);
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            return listMedicines;
         }
     }
 }

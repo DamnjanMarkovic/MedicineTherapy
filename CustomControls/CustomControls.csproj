@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1425560A-C40C-472C-98D4-1EB14CA9F9E0}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>CustomControls</RootNamespace>
+    <AssemblyName>CustomControls</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="open.HighPerformanceCounters, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\!references\visaris\Other\open.HighPerformanceCounters.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="StandardControls\WPF\CustomButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomDateBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomExpander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomPasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomRadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StandardControls\WPF\CustomTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardControls\WPF\OutlinedText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\ScrollViewerStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\CommonGenericFuncs.cs" />
+    <Compile Include="Helpers\CapitalizationConverter.cs" />
+    <Compile Include="Helpers\ForEachExtension.cs" />
+    <Compile Include="Helpers\ImagesPaths.cs" />
+    <Compile Include="Helpers\ImagesHandling.cs" />
+    <Compile Include="Helpers\PropertiesConverter.cs" />
+    <Compile Include="Helpers\RC4.cs" />
+    <Compile Include="StandardControls\WPF\CustomExpander.xaml.cs">
+      <DependentUpon>CustomExpander.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\IButtonValuesImplementation.cs" />
+    <Compile Include="Helpers\StaticProperties.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomButton.xaml.cs">
+      <DependentUpon>CustomButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomCheckBox.xaml.cs">
+      <DependentUpon>CustomCheckBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomComboBox.xaml.cs">
+      <DependentUpon>CustomComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomDateBox.xaml.cs">
+      <DependentUpon>CustomDateBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomLabel.xaml.cs">
+      <DependentUpon>CustomLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomPasswordBox.xaml.cs">
+      <DependentUpon>CustomPasswordBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomProgressBar.xaml.cs">
+      <DependentUpon>CustomProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomRadioButton.xaml.cs">
+      <DependentUpon>CustomRadioButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomSlider.xaml.cs">
+      <DependentUpon>CustomSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\CustomTextBox.xaml.cs">
+      <DependentUpon>CustomTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardControls\WPF\IButton.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\ColorToBrushConverter.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomCheckBoxStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomComboBoxStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomExpanderStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomLabelStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomDateBoxStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomRadioButtonStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomButtonStyle.cs" />
+    <Compile Include="StandardControls\WPF\StyleCustom\CustomTextBoxStyle.cs" />
+    <Compile Include="StandardControls\WPF\OutlinedText.xaml.cs">
+      <DependentUpon>OutlinedText.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

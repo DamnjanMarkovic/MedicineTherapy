@@ -1,0 +1,71 @@
+﻿<CheckBox
+            x:Class="CustomControls.CustomCheckBox"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:local="clr-namespace:CustomControls"
+            >
+
+    <CheckBox.Resources>
+
+    <!--Style CustomCheckBox-->
+        
+    <Style TargetType="{x:Type local:CustomCheckBox}">
+            <Setter Property="BorderThickness" Value="10"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CustomCheckBox}">                    
+                        <Border x:Name="border" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            HorizontalAlignment="Left"                                 
+                            VerticalAlignment="Center"
+                            Width="{Binding Path=Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" 
+                            Height="{Binding Path=Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" 
+                            CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}"
+                            >                            
+                            <ContentPresenter x:Name="contentPresenter" 
+                                HorizontalAlignment="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" 
+                                VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" 
+                                Content="{Binding Path=Content, Mode=TwoWay, 
+                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType={x:Type local:CustomCheckBox}}}"
+                            />
+                            </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                Value="{Binding Path=MouseOverContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                Value="{Binding Path=KeyboardFocusedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" Value="0.7"/>
+                                <!--<Setter Property="Content" TargetName="contentPresenter" 
+                                        Value="{Binding Path=DisabledContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" />-->
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                        Value="{Binding Path=CheckedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomCheckBox}}}"/>
+
+                            </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+    </CheckBox.Resources>
+    
+</CheckBox>

@@ -1,0 +1,71 @@
+﻿<RadioButton
+    x:Class="CustomControls.CustomRadioButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CustomControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="RadioButton_Loaded"
+    mc:Ignorable="d">
+    <RadioButton.Resources>
+
+        <!--  Style CustomRadioButton  -->
+
+        <Style TargetType="local:CustomRadioButton">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:CustomRadioButton">
+                        <Grid>
+                            <Border
+                                x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                Content="{Binding Path=Content, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="contentPresenter" Property="Content" Value="{Binding Path=MouseOverContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="contentPresenter" Property="Content" Value="{Binding Path=KeyboardFocusedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" Value="0.7"/>
+                                <!--<Setter Property="Content" TargetName="contentPresenter" 
+                                        Value="{Binding Path=DisabledContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />-->
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="contentPresenter" Property="Content" Value="{Binding Path=CheckedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomRadioButton}}}" />
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </RadioButton.Resources>
+
+</RadioButton>

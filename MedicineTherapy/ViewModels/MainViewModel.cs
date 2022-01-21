@@ -1,4 +1,5 @@
-﻿using MedicineTherapy.DataProvider;
+﻿using CustomControls;
+using MedicineTherapy.DataProvider;
 using MedicineTherapy.Models;
 using System;
 using System.Collections.Generic;
@@ -40,10 +41,26 @@ namespace MedicineTherapy.ViewModels
             }
         }
 
+        private ObservableCollection<Medicine> _medicines = new ObservableCollection<Medicine>();
+        public ObservableCollection<Medicine> Medicines
+        {
+            get
+            {
+                return _medicines;
+            }
+            set
+            {
+                _medicines = value;
+                OnPropertyChanged(nameof(Medicines));
+            }
+        }
+
         public MainViewModel()
         {
+            
             Archive archiveProvider = new Archive();
             _patients = archiveProvider.GetPatients();
+            _medicines = archiveProvider.GetMedicines();
         }
 
     }

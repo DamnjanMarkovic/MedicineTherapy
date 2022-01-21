@@ -1,0 +1,259 @@
+﻿<ComboBox
+    x:Class="CustomControls.CustomComboBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CustomControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="ComboBox_Loaded"
+    mc:Ignorable="d">
+
+    <ComboBox.Resources>
+        
+        <!--  Style ComboBox Button  -->
+        <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="ClickMode" Value="Press" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            x:Name="border"
+                            Background="Transparent"                            
+                            BorderBrush="{Binding BorderBrush, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"                                                        
+                            BorderThickness="{Binding BorderThickness, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                            CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                            SnapsToDevicePixels="true">
+                            <Border
+                                x:Name="splitBorder"
+                                Width="20"
+                                Margin="2 0 5 0"
+                                HorizontalAlignment="Right"
+                                BorderBrush="Transparent"
+                                BorderThickness="{Binding BorderThickness, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                SnapsToDevicePixels="true">
+                                <Path
+                                    x:Name="Arrow"
+                                    Margin="{Binding Path=MarginImage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="{Binding Path=PathData, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                    StrokeThickness="2" />
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                                <Setter TargetName="Arrow" Property="Data" Value="{Binding Path=PathDataChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Arrow" Property="Fill" Value="{Binding Path=ForegroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Arrow" Property="StrokeThickness" Value="2" />
+                                <Setter TargetName="Arrow" Property="HorizontalAlignment" Value="Center" />
+                                <Setter TargetName="Arrow" Property="Margin" Value="{Binding Path=MarginImageChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Arrow" Property="VerticalAlignment" Value="Center" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding Path=BorderColorChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Data="M 0 0 L 6 6 L 0 12"
+        
+        M 0 0 L 12 0 L 6 6
+        -->
+        <!--  Style ComboBox Item  -->
+
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter x:Name="SelectionBoxItemTemplate" Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border
+                            x:Name="Bd"
+                            Padding="4"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                x:Name="contentP"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                TextElement.FontWeight="Regular"
+                                TextOptions.TextFormattingMode="Ideal"
+                                TextOptions.TextRenderingMode="ClearType" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{Binding Path=BackgroundMouseOverItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{Binding Path=TextColorMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{Binding Path=BackgroundMouseOverItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{Binding Path=TextColorMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{Binding Path=BackgroundItemsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{Binding Path=TextItemsColorChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="contentP" Property="TextElement.FontStyle" Value="Normal" />
+                                <Setter Property="FocusManager.FocusedElement" Value="{Binding FocusManager.Next}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  Style Custom ComboBox  -->
+        <Style TargetType="{x:Type local:CustomComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="Padding" Value="7,3,5,3" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+            <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:CustomComboBox}">
+                        <Border x:Name="border" Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}">
+                            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0" MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
+                                </Grid.ColumnDefinitions>
+                                <Popup
+                                    x:Name="PART_Popup"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0"
+                                    AllowsTransparency="True"
+                                    IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Placement="Bottom"
+                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+
+                                    <Themes:SystemDropShadowChrome
+                                        x:Name="shadow"
+                                        MinWidth="{Binding ActualWidth, ElementName=templateRoot}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        Color="Transparent">
+                                        <Border
+                                            x:Name="dropDownBorder"
+                                            Background="{Binding Path=BackgroundItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                            BorderBrush="{Binding Path=BorderBrushItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                            BorderThickness="{Binding Path=BorderThicknessItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}"
+                                            CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}">
+                                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                                    <Canvas
+                                                        x:Name="canvas"
+                                                        Width="0"
+                                                        Height="0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top">
+                                                        <Rectangle
+                                                            x:Name="opaqueRect"
+                                                            Width="{Binding ActualWidth, ElementName=dropDownBorder}"
+                                                            Height="{Binding ActualHeight, ElementName=dropDownBorder}" />
+                                                    </Canvas>
+                                                    <ItemsPresenter
+                                                        x:Name="ItemsPresenter"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Themes:SystemDropShadowChrome>
+                                </Popup>
+                                <ToggleButton
+                                    x:Name="toggleButton"
+                                    Grid.ColumnSpan="2"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0"
+                                    IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{StaticResource ComboBoxToggleButton}" />
+                                <!--<ScrollViewer x:Name="PART_ContentHost" Focusable="False" />-->
+                                <ContentPresenter
+                                    x:Name="contentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Text}"
+                                    ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    FocusVisualStyle="{x:Null}"
+                                    Focusable="False"
+                                    IsHitTestVisible="false"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    TextElement.FontStyle="{TemplateBinding FontStyle}"
+                                    TextElement.FontWeight="Regular"
+                                    TextOptions.TextFormattingMode="Ideal"
+                                    TextOptions.TextRenderingMode="ClearType" 
+                                    
+                                    />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger x:Name="IF_SelectedIndex_is_0_AND_ManualResetEnabled_is_True">
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="SelectedIndex" Value="0" />
+                                    <Condition Property="ManualResetEnabled" Value="true" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="contentPresenter" Property="Content" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextOnEmptyField}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontStyle" Value="Italic" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontWeight" Value="Regular" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="{Binding Path=TextColorPlaceHolder, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontFamily" Value="{Binding Path=FontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontSize" Value="{Binding Path=FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </MultiTrigger>
+                            <MultiTrigger x:Name="IF_IsGrouping_is_True_AND_VirtualizingPanel_IsVirtualizingWhenGrouping_is_False">
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsGrouping" Value="true" />
+                                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                            </MultiTrigger>
+                            <Trigger Property="SelectedValue" Value="{x:Null}">
+                                <Setter TargetName="contentPresenter" Property="Content" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextOnEmptyField}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontStyle" Value="Italic" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontWeight" Value="Regular" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="{Binding Path=TextColorPlaceHolder, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontFamily" Value="{Binding Path=FontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="contentPresenter" Property="TextBlock.FontSize" Value="{Binding Path=FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding Path=BorderColorMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding Path=BorderColorMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+                                <Setter TargetName="border" Property="Background" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomComboBox}}}" />
+
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="dropDownBorder" Property="Height" Value="95" />
+                            </Trigger>
+                            <Trigger SourceName="DropDownScrollViewer" Property="ScrollViewer.CanContentScroll" Value="false">
+                                <Setter TargetName="opaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}" />
+                                <Setter TargetName="opaqueRect" Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </ComboBox.Resources>
+
+</ComboBox>

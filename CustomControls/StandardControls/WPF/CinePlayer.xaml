@@ -1,0 +1,185 @@
+﻿<UserControl
+    x:Class="Avanse.GUI.Controls.CinePlayer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Avanse.GUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Avanse.GUI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel x:Name="playerMainPanel" Background="Transparent">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <!--<RowDefinition Height="20" />-->
+                </Grid.RowDefinitions>
+
+                <controls:CustomSlider
+                    x:Name="slidersControl"
+                    Grid.Row="0"
+                    Background="Transparent"
+ 
+                SliderEnd_Value_Changed="SlidersControl_SliderEnd_Value_Changed"
+                    SliderMain_Value_Changed="SlidersControl_SliderMain_Value_Changed"
+                    SliderStart_Value_Changed="SlidersControl_SliderStart_Value_Changed"
+                    />
+                    <StackPanel
+                    x:Name="panelTextBox"
+                    Grid.Row="1"
+                    VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <controls:CustomTextBox
+                            x:Name="sliderStarts"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="12" />
+                        <controls:CustomTextBox
+                            x:Name="sliderText"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="12" />
+                        <controls:CustomTextBox
+                            x:Name="sliderEnds"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="12" />
+
+                    </Grid>
+                </StackPanel>
+
+                <Grid
+                    x:Name="panelButtons"
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:CustomButton
+                        x:Name="btnBack"
+                        Grid.Column="0"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnBegining_Click"
+                        MarginImage="10" 
+                        PathDataValue="{x:Static controls:ImagesPaths.PlayBackUntilEnd_01}"
+                         />
+                    <controls:CustomButton
+                        x:Name="btnStepBack"
+                        Grid.Column="1"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnStepBack_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.PlayStepBackward_01}"/>
+   
+
+                    <controls:CustomButton
+                        x:Name="btnPlayStop"
+                        Grid.Column="2"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnPlayStop_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.Play_03}"
+/>
+                    <controls:CustomButton
+                        x:Name="btnStepForward"
+                        Grid.Column="3"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnStepForward_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.PlayStepForward_01}"
+                    />
+                    <controls:CustomButton
+                        x:Name="btnEnd"
+                        Grid.Column="4"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnEnd_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.PlayForwardUntilEnd_01}"
+                        />
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:CustomButton
+                        x:Name="btnScissors"
+                        Grid.Column="0"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnCutSingleFrame_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.Needle_01}" 
+                        />
+
+                    <controls:CustomButton
+                        x:Name="btnScissors2"
+                        Grid.Column="1"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnCutSelectedFrames_Click"
+                        MarginImage="10"
+                        PathDataValue="{x:Static controls:ImagesPaths.Scissors_02}"
+                        />
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

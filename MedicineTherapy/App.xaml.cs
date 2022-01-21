@@ -1,4 +1,5 @@
-﻿using MedicineTherapy.ViewModels;
+﻿using CustomControls;
+using MedicineTherapy.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,7 @@ namespace MedicineTherapy
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            CustomStyle.Instance.SetDefaultProperties();
             MainWindow window = new MainWindow();
             window.DataContext = new MainViewModel();
             window.Show();

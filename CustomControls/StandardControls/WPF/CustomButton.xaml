@@ -1,0 +1,71 @@
+﻿<Button
+        x:Class="CustomControls.CustomButton"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:CustomControls"
+        mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Loaded="Button_Loaded"
+        >
+    <Button.Resources>
+
+        <!--Style CustomButton-->
+        <Style TargetType="local:CustomButton" >
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:CustomButton" >
+                        <Border x:Name="border"   
+                            VerticalAlignment="{Binding Path=VerticalAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}" 
+                            BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"
+                            BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"
+                            CornerRadius = "{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"                            
+                            Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"
+                            Height="{Binding Path=Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"
+                                >
+                            <ContentPresenter x:Name="contentPresenter"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{Binding Path=Content, Mode=TwoWay,
+                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                    AncestorType={x:Type local:CustomButton}}}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Tag="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextOnEmptyField}"  
+                                >
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                Value="{Binding Path=MouseOverContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                Value="{Binding Path=KeyboardFocusedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Content" TargetName="contentPresenter" 
+                                        Value="{Binding Path=CheckedContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <!--<Setter Property="Content" TargetName="contentPresenter" 
+                                        Value="{Binding Path=DisabledContentPresenter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}" />
+                                <Setter Property="Background" TargetName="border" Value="{Binding Path=BackgroundChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CustomButton}}}"/>-->
+                               <Setter Property="Opacity" Value="0.7"/>
+                                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>            
+        </Style>
+        
+    </Button.Resources>
+    
+</Button>
