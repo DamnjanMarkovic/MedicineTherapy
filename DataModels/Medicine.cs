@@ -11,12 +11,12 @@ namespace DataModels
     {
         public int MedicineID { get; set; }
         public string MedicineName { get; set; }
-        public MedicineType MedicineType { get; set; }
+        public MedicineTypeEnum MedicineType { get; set; }
 
         public ObservableCollection<Patient>? patientList { get; set; } = new ObservableCollection<Patient>();
     }
 
-    public enum MedicineType
+    public enum MedicineTypeEnum
     {
         NewAntiDiabetic = 1,
         AntiDiabetic = 2,

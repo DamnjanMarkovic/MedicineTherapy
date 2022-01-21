@@ -1,0 +1,86 @@
+﻿<local:BaseView  
+            x:Class="MedicineTherapy.Views.MedicineTypeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MedicineTherapy.Views" 
+            xmlns:converters="clr-namespace:MedicineTherapy.Converters" xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
+    mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <local:BaseView.Resources>
+        <converters:StringToUpperConverter  x:Key="StringToUpperConverter"/>
+        <converters:ListToStringConverter  x:Key="ListToStringConverter"/>
+    </local:BaseView.Resources>
+    <Grid Background="{Binding Background}">
+
+        <ListView x:Name="listMedicineType" ItemsSource="{Binding MedicineTypeVMList}" 
+                          HorizontalAlignment="Stretch" 
+                  HorizontalContentAlignment="Stretch"
+                  Background="Transparent" 
+                  BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                   
+                  >
+            <ListView.LayoutTransform>
+                <RotateTransform Angle="-90"/>
+            </ListView.LayoutTransform>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem" >
+                                
+                                <Border x:Name="Border" SnapsToDevicePixels="true" Margin="10 1 0 1" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                    
+                                    <Label Grid.Row="0" Content="{Binding MedicineType, Converter={StaticResource StringToUpperConverter}}"
+                                             Background="Transparent" Foreground="White"
+                                             TextBlock.FontSize="20" Margin="10 1" VerticalAlignment="Center"
+                                                          HorizontalContentAlignment="Center"    
+                                                              />
+                                        <Label Grid.Row="1" Content="{Binding NumberOfMedicine}"
+                                             Background="Transparent" Foreground="White" HorizontalContentAlignment="Center"
+                                             TextBlock.FontSize="20" VerticalAlignment="Center"
+                                                              
+                                                              />
+                                        <Label Grid.Row="2" Content="Medicine list:" HorizontalContentAlignment="Center"
+                                            Background="Transparent" Foreground="White" 
+                                             TextBlock.FontSize="20" Margin="0" VerticalAlignment="Center"
+                                                              
+                                                              />
+                                        <customcontrols:CustomTextBox Grid.Row="3" Text="{Binding Path=MedicineList,Converter={StaticResource ListToStringConverter}}" 
+                                            Height="400" HorizontalAlignment="Stretch"
+                                            BackgroundValueEntered="Transparent" Background="Transparent"
+                                             TextBlock.FontSize="16 " Margin="10 1" VerticalAlignment="Stretch" IsEnabled="False"
+                                                              
+                                                              />
+                                        <!--<customcontrols:CustomLabel Grid.Row="3" Content="{Binding MedicineType, Converter={StaticResource StringToUpperConverter}}"
+                                            Typography.Capitals="AllPetiteCaps" BackgroundValueEntered="Transparent"
+                                             TextBlock.FontSize="20" Margin="10 1" VerticalAlignment="Center"
+                                                              
+                                                              />-->
+
+
+
+
+                                    </Grid>
+                                    <Border.LayoutTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </Border.LayoutTransform>
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</local:BaseView>

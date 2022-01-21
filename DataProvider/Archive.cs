@@ -59,7 +59,7 @@ namespace DataProvider
                                 medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
                                 medicine.MedicineName = reader["MedicineName"] as string;
                                 var medicineGroupID = reader["GroupID"] as int? ?? default(int);
-                                medicine.MedicineType = (MedicineType)Enum.ToObject(typeof(MedicineType), medicineGroupID);
+                                medicine.MedicineType = (MedicineTypeEnum)Enum.ToObject(typeof(MedicineTypeEnum), medicineGroupID);
 
                                 medicineList.Add(medicine);
                             }
@@ -104,6 +104,9 @@ namespace DataProvider
 
                         patient.PersonID = reader["PersonID"] as int? ?? default(int);
                         patient.BirthYear = reader["BirthYear"] as int? ?? default(int);
+                        var age = int.Parse(DateTime.Now.Year.ToString()) - patient.BirthYear;
+                        patient.PatientAgeGroup = SetPatientAgeGroup(age);
+
                         listPatients.Add(patient);
                     }
                 }
@@ -114,6 +117,24 @@ namespace DataProvider
             }
 
             return listPatients;
+        }
+
+        private PatientAge SetPatientAgeGroup(int age)
+        {
+            switch (age)
+            {
+                case (<= 40):
+                    return PatientAge._40;
+                case (<= 50):
+                    return PatientAge._40_50;
+                case (<= 60):
+                    return PatientAge._50_60;
+                case (<= 70):
+                    return PatientAge._60_70;
+                case (> 70):
+                    return PatientAge._70_;
+            }
+
         }
 
         public ObservableCollection<Medicine> GetMedicines()
@@ -165,7 +186,9 @@ namespace DataProvider
                                 patient = new Patient();
 
                                 patient.PersonID = reader["PersonID"] as int? ?? default(int);
-                                patient.BirthYear = reader["BirthYear"] as int? ?? default(int);
+                                patient.BirthYear = reader["BirthYear"] as int? ?? default(int); 
+                                var age = int.Parse(DateTime.Now.Year.ToString()) - patient.BirthYear;
+                                patient.PatientAgeGroup = SetPatientAgeGroup(age);
                                 listPatients.Add(patient);
 
                             }
@@ -207,7 +230,7 @@ namespace DataProvider
                         medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
                         medicine.MedicineName = reader["MedicineName"] as string;
                         var medicineGroupID = reader["GroupID"] as int? ?? default(int);
-                        medicine.MedicineType = (MedicineType)Enum.ToObject(typeof(MedicineType), medicineGroupID);
+                        medicine.MedicineType = (MedicineTypeEnum)Enum.ToObject(typeof(MedicineTypeEnum), medicineGroupID);
                         listMedicines.Add(medicine);
                     }
                 }
@@ -218,6 +241,105 @@ namespace DataProvider
             }
 
             return listMedicines;
+        }
+
+        public ObservableCollection<MedicineType> GetMedicineTypes()
+        {
+            SqlConnection connection = null;
+            SqlCommand command = null;
+            try
+            {
+
+                MedicineType medicineType = new MedicineType();
+                Medicine medicine = new Medicine();
+                ObservableCollection<Medicine> listMedicine = new ObservableCollection<Medicine>();
+                ObservableCollection<MedicineType> medicineTypeList = new ObservableCollection<MedicineType>();
+
+                connection = new SqlConnection(ConfigFile.connectionString);
+
+                command = new SqlCommand("", connection);
+                connection.Open();
+
+
+                medicineTypeList = GetAllMedicineTypes(command);
+
+
+                foreach (MedicineType medicineTypeInTheList in medicineTypeList)
+                {
+                    //medicineType = new MedicineType();
+                    listMedicine = new ObservableCollection<Medicine>();
+                    string query = @"
+                                SELECT * FROM Medicine m
+                                WHERE m.GroupID = @GroupID
+                                ";
+
+                    command.CommandText = query;
+                    var res = (int)medicineTypeInTheList.MedicineTyper;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@GroupID", ((int)medicineTypeInTheList.MedicineTyper));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                medicine = new Medicine();
+
+                                medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
+                                medicine.MedicineName = reader["MedicineName"] as string;
+                                var medicineGroupID = reader["GroupID"] as int? ?? default(int);
+                                medicine.MedicineType = (MedicineTypeEnum)Enum.ToObject(typeof(MedicineTypeEnum), medicineGroupID);
+                                listMedicine.Add(medicine);
+
+                            }
+                            medicineTypeInTheList.MedicineList = listMedicine;
+                        }
+                    }
+                }
+
+                return medicineTypeList;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+
+            }
+
+        }
+
+        private ObservableCollection<MedicineType> GetAllMedicineTypes(SqlCommand command)
+        {
+            MedicineType medicineType = new MedicineType();
+            ObservableCollection<MedicineType> medicineList = new ObservableCollection<MedicineType>();
+            string query = @"SELECT distinct GroupID from Medicine";
+
+            command.CommandText = query;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        medicineType = new MedicineType();
+                        var medicineGroupID = reader["GroupID"] as int? ?? default(int);
+                        medicineType.MedicineTyper = (MedicineTypeEnum)Enum.ToObject(typeof(MedicineTypeEnum), medicineGroupID);
+
+                        medicineList.Add(medicineType);
+                    }
+                }
+                //else
+                //{
+                //    return null;
+                //}
+            }
+
+            return medicineList;
         }
     }
 }
