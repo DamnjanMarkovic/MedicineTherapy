@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicineTherapy.Models
+namespace DataModels
 {
     public class ObservableObject : INotifyPropertyChanged
     {

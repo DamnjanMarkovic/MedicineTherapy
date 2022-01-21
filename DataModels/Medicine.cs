@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicineTherapy.Models
+namespace DataModels
 {
     public class Medicine
     {
@@ -13,7 +13,7 @@ namespace MedicineTherapy.Models
         public string MedicineName { get; set; }
         public MedicineType MedicineType { get; set; }
 
-        public ObservableCollection<Patient> patientList { get; set; } = new ObservableCollection<Patient>();
+        public ObservableCollection<Patient>? patientList { get; set; } = new ObservableCollection<Patient>();
     }
 
     public enum MedicineType

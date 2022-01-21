@@ -1,5 +1,6 @@
 ﻿using CustomControls;
-using MedicineTherapy.DataProvider;
+using DataModels;
+using DataProvider;
 using MedicineTherapy.Models;
 using System;
 using System.Collections.Generic;

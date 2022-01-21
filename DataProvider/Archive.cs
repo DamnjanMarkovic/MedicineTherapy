@@ -1,13 +1,9 @@
-﻿using MedicineTherapy.Models;
+﻿using DataModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MedicineTherapy.DataProvider
+namespace DataProvider
 {
 
     public class Archive
@@ -24,8 +20,8 @@ namespace MedicineTherapy.DataProvider
                 ObservableCollection<Patient> listPatients = new ObservableCollection<Patient>();
                 ObservableCollection<Medicine> medicineList = new ObservableCollection<Medicine>();
 
-                
-  
+                connection = new SqlConnection(ConfigFile.connectionString);
+
                 command = new SqlCommand("", connection);
                 connection.Open();
 
@@ -69,15 +65,11 @@ namespace MedicineTherapy.DataProvider
                             }
                             patientInTheList.MedicineList = medicineList;
                         }
-                        else
-                        {
-                            return listPatients;
-                        }
                     }
                 }
 
 
-               
+
 
                 return listPatients;
 
@@ -136,7 +128,7 @@ namespace MedicineTherapy.DataProvider
                 ObservableCollection<Patient> listPatients = new ObservableCollection<Patient>();
                 ObservableCollection<Medicine> medicineList = new ObservableCollection<Medicine>();
 
-                
+                connection = new SqlConnection(ConfigFile.connectionString);
 
                 command = new SqlCommand("", connection);
                 connection.Open();
@@ -145,24 +137,24 @@ namespace MedicineTherapy.DataProvider
                 medicineList = GetAllMedicines(command);
 
 
-                foreach (Patient patientInTheList in listPatients)
+                foreach (Medicine medicineInTheList in medicineList)
                 {
-                    medicine = new Medicine();
-                    medicineList = new ObservableCollection<Medicine>();
+                    patient = new Patient();
+                    listPatients = new ObservableCollection<Patient>();
                     string query = @"
-                                SELECT m.MedicineID, m.MedicineName, m.GroupID
+                                SELECT p.PersonID, p.BirthYear
                                 FROM PatientMedicine pm
                                 JOIN Patients p on pm.PersonID = p.PersonID
                                 JOIN Medicine m on m.MedicineID = pm.MedicineID
-                                WHERE p.PersonID = @PersonID
-                                order by p.PersonID
+                                WHERE m.MedicineID = @MedicineID
+                                order by m.MedicineID
                             ";
 
 
                     command.CommandText = query;
 
                     command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@PersonID", patientInTheList.PersonID);
+                    command.Parameters.AddWithValue("@MedicineID", medicineInTheList.MedicineID);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -170,26 +162,17 @@ namespace MedicineTherapy.DataProvider
                         {
                             while (reader.Read())
                             {
-                                medicine = new Medicine();
+                                patient = new Patient();
 
-                                medicine.MedicineID = reader["MedicineID"] as int? ?? default(int);
-                                medicine.MedicineName = reader["MedicineName"] as string;
-                                var medicineGroupID = reader["GroupID"] as int? ?? default(int);
-                                medicine.MedicineType = (MedicineType)Enum.ToObject(typeof(MedicineType), medicineGroupID);
+                                patient.PersonID = reader["PersonID"] as int? ?? default(int);
+                                patient.BirthYear = reader["BirthYear"] as int? ?? default(int);
+                                listPatients.Add(patient);
 
-                                medicineList.Add(medicine);
                             }
-                            patientInTheList.MedicineList = medicineList;
-                        }
-                        else
-                        {
-                            return medicineList;
+                            medicineInTheList.patientList = listPatients;
                         }
                     }
                 }
-
-
-
 
                 return medicineList;
 
@@ -203,14 +186,13 @@ namespace MedicineTherapy.DataProvider
 
             }
 
-
         }
 
         private ObservableCollection<Medicine> GetAllMedicines(SqlCommand command)
         {
             Medicine medicine = new Medicine();
             ObservableCollection<Medicine> listMedicines = new ObservableCollection<Medicine>();
-            string query = @"SELECT * from Medicines";
+            string query = @"SELECT * from Medicine";
 
             command.CommandText = query;
 
