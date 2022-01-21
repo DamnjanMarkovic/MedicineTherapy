@@ -11,7 +11,7 @@ namespace MedicineTherapy.ViewModels
     public class MedicineTypeViewModel
     {
         public string MedicineType { get; set; }
-        public int NumberOfMedicine { get; set; }
+        public string NumberOfMedicine { get; set; }
         public List<string> MedicineList { get; set; } = new List<string>();
 
         public int NumberOfPatients { get; set; }

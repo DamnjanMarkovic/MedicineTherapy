@@ -3,10 +3,133 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MedicineTherapy.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
+             xmlns:local="clr-namespace:MedicineTherapy.Views" 
+            xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls" 
+                xmlns:converters="clr-namespace:MedicineTherapy.Converters"
+                mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1200" Loaded="BaseView_Loaded">
+    <local:BaseView.Resources>
+        <converters:FilterMedicineTypeConverter  x:Key="FilterMedicineTypeConverter"/>
+    </local:BaseView.Resources>
+    
+    
+    
+    <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="1000"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <ComboBox x:Name="comboMedicineTypes" Grid.Row="0" 
+                      ItemsSource="{Binding MedicineTypeVMList, UpdateSourceTrigger=PropertyChanged}" 
+                      FontSize="20" 
+                      HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center"
+                      VerticalAlignment="Center" VerticalContentAlignment="Center"
+                      DisplayMemberPath="MedicineType" Height="50"                      
+                      />
+            <ComboBox Grid.Row="1" FontSize="20" 
+                      HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center"
+                      VerticalAlignment="Center" VerticalContentAlignment="Center"
+                      DisplayMemberPath="MedicineName" Height="50" SelectionChanged="ComboBox_SelectionChanged"                    
+                      >
+                <ComboBox.ItemsSource>
+                    <MultiBinding Converter="{StaticResource FilterMedicineTypeConverter}">
+                        <Binding Path="Medicines" />
+                        <Binding Path="SelectedItem" ElementName="comboMedicineTypes"/>
+                    </MultiBinding>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <customcontrols:CustomTextBox x:Name="NumberOfPatientOnSelectedMedicine" Text="{Binding NumberOfPatientOnSelectedMedicine}"
+                                              Height="50" FontSize="18" Margin="10" HorizontalAlignment="Left" 
+                                              HorizontalContentAlignment="Center"
+                                              VerticalContentAlignment="Center" Width="1000" />
+            </Grid>
+            <Grid Grid.Row="1">
+
+                <Grid Margin="10">
+
+                    <ListView x:Name="listMedicineType" ItemsSource="{Binding PatientAgeGroupCollection}" 
+                          HorizontalAlignment="Stretch" 
+                                  HorizontalContentAlignment="Stretch"
+                                  Background="Transparent" 
+                                  BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"                   
+                  >
+                        <ListView.LayoutTransform>
+                            <RotateTransform Angle="-90"/>
+                        </ListView.LayoutTransform>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem" >
+
+                                            <Border x:Name="Border" SnapsToDevicePixels="true" Margin="10 1 0 1" 
+                                                    Background="#FF242424"
+                                                    
+                                                    Width="180" Height="300"
+                                                    >
+                                                <Grid >
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="5*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Label Grid.Row="0" Content="{Binding PatientAgeGroupName}" 
+                                             Background="Transparent" Foreground="White"
+                                             TextBlock.FontSize="20" Margin="10 1" VerticalAlignment="Center"
+                                                          HorizontalContentAlignment="Center"    
+                                                              />
+                                                    <ProgressBar Grid.Row="1" Minimum="0" Maximum="100" Margin="10" Height="50"
+                                                                 Foreground="Red"
+                                                                 Value="{Binding PercentageOfPatients}"
+                                                                 
+                                                                 >
+                                                        <ProgressBar.LayoutTransform>
+                                                            <RotateTransform Angle="-90"/>
+                                                        </ProgressBar.LayoutTransform>
+                                                    </ProgressBar>
+                                                    <Label Grid.Row="2" HorizontalContentAlignment="Center"
+                                            Background="Transparent" Foreground="White" Content="{Binding PercentageOfPatients}" ContentStringFormat="{}{0} %"
+                                             TextBlock.FontSize="20" Margin="0" VerticalAlignment="Center"                                                              
+                                                              />
+                                                    <Label Grid.Row="3" HorizontalContentAlignment="Center"
+                                            Background="Transparent" Foreground="White" Content="{Binding NumberOfPatients}" ContentStringFormat="{}{0} patients."
+                                             TextBlock.FontSize="20" Margin="0" VerticalAlignment="Center"                                                              
+                                                              />
+
+
+
+
+                                                </Grid>
+                                                <Border.LayoutTransform>
+                                                    <RotateTransform Angle="90"/>
+                                                </Border.LayoutTransform>
+                                            </Border>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </Grid>
             
+            
+        </Grid>
     </Grid>
 </local:BaseView>

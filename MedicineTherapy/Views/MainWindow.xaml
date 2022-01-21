@@ -7,11 +7,11 @@
         xmlns:viewmodels="clr-namespace:MedicineTherapy.ViewModels" 
         Title="MainWindow" Height="850" Width="1200">
 
-    <Window.Resources>
-        <!--<CollectionViewSource x:Key="APRListResult" Source="{Binding APRListResult}" />-->
-    </Window.Resources>
 
-    <Grid Background="Black">
+    <Grid >
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Resources/pills.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>
@@ -21,8 +21,8 @@
 
 
         <Grid Grid.Row="0" >
-            <controls:CustomLabel Content="Some image here" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                  FontSize="25"/>
+            <!--<controls:CustomLabel Content="Some image here" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  FontSize="25"/>-->
         </Grid>
 
         <!--#region  Navigation / DataGrids  -->

@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\pills.jpg" />
+    <None Remove="Resources\pills_01.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Style\" />
   </ItemGroup>
 
@@ -15,6 +20,13 @@
     <ProjectReference Include="..\CustomControls\CustomControls.csproj" />
     <ProjectReference Include="..\DataModels\DataModels.csproj" />
     <ProjectReference Include="..\DataProvider\DataProvider.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\pills.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\pills_01.png" />
   </ItemGroup>
 
 </Project>

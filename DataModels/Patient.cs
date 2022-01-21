@@ -24,4 +24,19 @@ namespace DataModels
         _60_70      = 4,
         _70_        = 5
     }
+
+    public struct PatientAgeGroup
+    {
+        public PatientAgeGroup(PatientAge PatientAge, string PatientAgeGroupName, int PercentageOfPatients, int NumberOfPatients)
+        {
+            this.PatientAge = PatientAge;
+            this.PatientAgeGroupName = PatientAgeGroupName;
+            this.PercentageOfPatients = PercentageOfPatients;
+            this.NumberOfPatients = NumberOfPatients;
+        }
+        public PatientAge PatientAge { get; set; }
+        public string PatientAgeGroupName { get; set; }
+        public int PercentageOfPatients { get; set; }
+        public int NumberOfPatients { get; set; }
+    }
 }

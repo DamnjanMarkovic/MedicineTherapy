@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
 
-    <Grid Background="Black">
+    <Grid Background="Transparent">
 
         <ListView x:Name="listViewsNC" ItemsSource="{Binding Views}" HorizontalAlignment="Stretch" 
                   HorizontalContentAlignment="Stretch"

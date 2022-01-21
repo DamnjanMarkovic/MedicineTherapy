@@ -1,6 +1,7 @@
 ﻿using CustomControls;
 using DataModels;
 using DataProvider;
+using MedicineTherapy.Commands;
 using MedicineTherapy.Models;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
     
 namespace MedicineTherapy.ViewModels
 {
     public class MainViewModel: ObservableObject
     {
+
+        #region Commands
+        public ICommand MedicineViewSelectMedicine() => new MedicineViewSelectMedicine(this);
+
+        #endregion
+
+        #region Properties
+
         private Brush _background = Brushes.DarkBlue;
         public Brush Background
         {
@@ -97,6 +107,37 @@ namespace MedicineTherapy.ViewModels
             }
         }
 
+        private string _numberOfPatientOnSelectedMedicine;
+        public string NumberOfPatientOnSelectedMedicine
+        {
+            get
+            {
+                return _numberOfPatientOnSelectedMedicine;
+            }
+            set
+            {
+                _numberOfPatientOnSelectedMedicine = value;
+                OnPropertyChanged(nameof(NumberOfPatientOnSelectedMedicine));
+            }
+        }
+
+        private ObservableCollection<PatientAgeGroup> _patientAgeGroupCollection = new ObservableCollection<PatientAgeGroup>();
+        public ObservableCollection<PatientAgeGroup> PatientAgeGroupCollection
+        {
+            get
+            {
+                return _patientAgeGroupCollection;
+            }
+            set
+            {
+                _patientAgeGroupCollection = value;
+                OnPropertyChanged(nameof(PatientAgeGroupCollection));
+            }
+        }
+
+        #endregion
+
+        #region Constructor
         public MainViewModel()
         {
             NavigationViewModel = new NavigationViewModel();
@@ -107,6 +148,10 @@ namespace MedicineTherapy.ViewModels
             SetMedicineTypeList();
         }
 
+        #endregion
+
+
+        #region Functions
         private void SetMedicineTypeList()
         {
             _medicineTypeVMList = new ObservableCollection<MedicineTypeViewModel>();
@@ -114,12 +159,13 @@ namespace MedicineTherapy.ViewModels
             {
                 MedicineTypeViewModel medicineType = new MedicineTypeViewModel();
                 medicineType.MedicineType = medicineTypeElement.MedicineTyper.ToString();
-                medicineType.NumberOfMedicine = medicineTypeElement.MedicineList.Count;
+                medicineType.NumberOfMedicine = $"Number of medicals: {medicineTypeElement.MedicineList.Count}";                
 
                 medicineType.MedicineList = medicineTypeElement.MedicineList.ToList().Select(i => i.MedicineName).ToList();
 
                 _medicineTypeVMList.Add(medicineType);
             });
         }
+        #endregion
     }
 }
