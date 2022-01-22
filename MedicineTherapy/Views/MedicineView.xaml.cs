@@ -43,6 +43,8 @@ namespace MedicineTherapy.Views
             if (dataContext != null)
             {
                 MedicineViewSelectMedicine = dataContext.MedicineViewSelectMedicine();
+                comboMedicineTypes.SelectedIndex = 0;
+                comboMedicines.SelectedIndex = 0;
             }
         }
 
@@ -54,5 +56,10 @@ namespace MedicineTherapy.Views
                 MedicineViewSelectMedicine.Execute(selectedMedicine);
 
         }
+        private void ComboBox_MedicineTypeCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            comboMedicines.SelectedIndex = 0;
+        }
     }
 }
+

@@ -22,13 +22,13 @@ namespace MedicineTherapy.Views
     /// </summary>
     public partial class PatientsView : BaseView
     {
-        public ICommand MedicineViewSelectMedicine
+        public ICommand PatientsViewSelectPatient
         {
-            get { return (ICommand)GetValue(MedicineViewSelectMedicineProperty); }
-            set { SetValue(MedicineViewSelectMedicineProperty, value); }
+            get { return (ICommand)GetValue(PatientsViewSelectPatientProperty); }
+            set { SetValue(PatientsViewSelectPatientProperty, value); }
         }
-        public static readonly DependencyProperty MedicineViewSelectMedicineProperty =
-            DependencyProperty.Register("MedicineViewSelectMedicine", typeof(ICommand), typeof(PatientsView), new PropertyMetadata(null));
+        public static readonly DependencyProperty PatientsViewSelectPatientProperty =
+            DependencyProperty.Register("PatientsViewSelectPatient", typeof(ICommand), typeof(PatientsView), new PropertyMetadata(null));
         public PatientsView()
         {
             InitializeComponent();
@@ -37,25 +37,32 @@ namespace MedicineTherapy.Views
         private void BaseView_Loaded(object sender, RoutedEventArgs e)
         {
             dataContext = DataContext as MainViewModel;
-
             if (dataContext != null)
             {
-                MedicineViewSelectMedicine = dataContext.MedicineViewSelectMedicine();
+                PatientsViewSelectPatient = dataContext.PatientsViewSelectPatient();
+                EventUpdateView += UpdateView;
+                comboPatientAgeGroups.SelectedIndex = 0;
+                comboPatiens.SelectedIndex = 0;
             }
+        }
+
+        private void UpdateView()
+        {
+            listMedicineType.Items.Refresh();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var senderCombo = sender as ComboBox;
-            var selectedMedicine = senderCombo.SelectedItem as Medicine;
-            if (MedicineViewSelectMedicine != null)
-                MedicineViewSelectMedicine.Execute(selectedMedicine);
+            var selectedPatient = senderCombo.SelectedItem as Patient;
+            if (PatientsViewSelectPatient != null)
+                PatientsViewSelectPatient.Execute(selectedPatient);
 
         }
 
-        private void BaseView_Loaded_1(object sender, RoutedEventArgs e)
+        private void comboPatientAgeGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            comboPatiens.SelectedIndex = 0;
         }
     }
 }

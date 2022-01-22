@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace DataModels
 {
-    public class Patient
+    public class Patient: ObservableObject
     {
         public int PersonID { get; set; }
+        //public string DisplayPatientID { get; set; }
+
+        public string DisplayPatientID
+        {
+            get
+            {
+                return $"Patient ID: {PersonID}";
+            }
+        }
+
         public int BirthYear { get; set; }
         public PatientAge PatientAgeGroup { get; set; }
 
@@ -25,9 +35,14 @@ namespace DataModels
         _70_        = 5
     }
 
-    public struct PatientAgeGroup
+    public class PatientAgeGroupViewModel: ObservableObject
     {
-        public PatientAgeGroup(PatientAge PatientAge, string PatientAgeGroupName, int PercentageOfPatients, int NumberOfPatients)
+        public PatientAgeGroupViewModel(PatientAge PatientAge, string PatientAgeGroupName)
+        {
+            this.PatientAge = PatientAge;
+            this.PatientAgeGroupName = PatientAgeGroupName;
+        }
+        public PatientAgeGroupViewModel(PatientAge PatientAge, string PatientAgeGroupName, int PercentageOfPatients, int NumberOfPatients)
         {
             this.PatientAge = PatientAge;
             this.PatientAgeGroupName = PatientAgeGroupName;
@@ -36,7 +51,34 @@ namespace DataModels
         }
         public PatientAge PatientAge { get; set; }
         public string PatientAgeGroupName { get; set; }
-        public int PercentageOfPatients { get; set; }
-        public int NumberOfPatients { get; set; }
+
+        private int _percentageOfPatients = 0;
+        public int PercentageOfPatients
+        {
+            get
+            {
+                return _percentageOfPatients;
+            }
+            set
+            {
+                _percentageOfPatients = value;
+                OnPropertyChanged(nameof(PercentageOfPatients));
+            }
+        }
+
+        private int _numberOfPatients = 0;
+        public int NumberOfPatients
+        {
+            get
+            {
+                return _numberOfPatients;
+            }
+            set
+            {
+                _numberOfPatients = value;
+                OnPropertyChanged(nameof(NumberOfPatients));
+            }
+        }
+
     }
 }

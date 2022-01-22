@@ -15,12 +15,10 @@ namespace MedicineTherapy.Commands
         public event EventHandler CanExecuteChanged;
 
         private readonly MainViewModel _mainViewModel;
-        private readonly Medicine _medicine;
 
         public MedicineViewSelectMedicine(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
-            //_medicine = medicine;
         }
 
         public bool CanExecute(object parameter)
@@ -31,66 +29,108 @@ namespace MedicineTherapy.Commands
 
         public void Execute(object parameter)
         {
-            _mainViewModel.PatientAgeGroupCollection = new ObservableCollection<PatientAgeGroup>();
             Medicine medicineSelected = parameter as Medicine;
             var patientCount = 0;
             if (medicineSelected != null)
             {
                 patientCount = medicineSelected.patientList.Count;
-
+                
+                _mainViewModel.PatientAgeGroupCollection.ToList().ForEach(patientAgeGroup =>
+                {
+                    patientAgeGroup.NumberOfPatients = 0;
+                    patientAgeGroup.PercentageOfPatients = 0;
+                });
                 if (patientCount > 0)
                 {
-                    var totalNumberOfPatients = medicineSelected.patientList.Count;
-                    var numberOfPatientsGroup_40 = 0;
-                    var numberOfPatientsGroup_40_50 = 0;
-                    var numberOfPatientsGroup_50_60 = 0;
-                    var numberOfPatientsGroup_60_70 = 0;
-                    var numberOfPatientsGroup_70_ = 0;
-
 
                     medicineSelected.patientList.ToList().ForEach(patient =>
                     {
                         switch (patient.PatientAgeGroup)
                         {
                             case PatientAge._40:
-                                numberOfPatientsGroup_40 += 1;
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40)
+                                .NumberOfPatients += 1;
+
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40)
+                                .PercentageOfPatients = (100 *
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40)
+                                .NumberOfPatients) / patientCount;
+
                                 break;
                             case PatientAge._40_50:
-                                numberOfPatientsGroup_40_50 += 1;
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40_50)
+                                .NumberOfPatients += 1;
+
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40_50)
+                                .PercentageOfPatients = (100 *
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._40_50)
+                                .NumberOfPatients) / patientCount;
+
                                 break;
                             case PatientAge._50_60:
-                                numberOfPatientsGroup_50_60 += 1;
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._50_60)
+                                .NumberOfPatients += 1;
+                                
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._50_60)
+                                .PercentageOfPatients = (100 *
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._50_60)
+                                .NumberOfPatients) / patientCount;
                                 break;
                             case PatientAge._60_70:
-                                numberOfPatientsGroup_60_70 += 1;
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._60_70)
+                                .NumberOfPatients += 1;
+                                
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._60_70)
+                                .PercentageOfPatients = (100 *
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._60_70)
+                                .NumberOfPatients) / patientCount;
                                 break;
                             case PatientAge._70_:
-                                numberOfPatientsGroup_70_ += 1;
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._70_)
+                                .NumberOfPatients += 1;
+                                
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._70_)
+                                .PercentageOfPatients = (100 *
+                                _mainViewModel.PatientAgeGroupCollection
+                                .ToList()
+                                .Find(patientAgeGroup => patientAgeGroup.PatientAge == PatientAge._70_)
+                                .NumberOfPatients) / patientCount;
+                                
                                 break;
                         }
                     });
-
-
-                    _mainViewModel.PatientAgeGroupCollection.Add(new PatientAgeGroup(PatientAge._40, "Under 40 Years",
-                        100 * numberOfPatientsGroup_40 / patientCount, numberOfPatientsGroup_40));
-                    _mainViewModel.PatientAgeGroupCollection.Add(new PatientAgeGroup(PatientAge._40_50, "40 - 50 Years",
-                        100 * numberOfPatientsGroup_40_50 / patientCount, numberOfPatientsGroup_40_50));
-                    _mainViewModel.PatientAgeGroupCollection.Add(new PatientAgeGroup(PatientAge._50_60, "50 - 60 Years",
-                        100 * numberOfPatientsGroup_50_60 / patientCount, numberOfPatientsGroup_50_60));
-                    _mainViewModel.PatientAgeGroupCollection.Add(new PatientAgeGroup(PatientAge._60_70, "60 - 70 Years",
-                        100 * numberOfPatientsGroup_60_70 / patientCount, numberOfPatientsGroup_60_70));
-                    _mainViewModel.PatientAgeGroupCollection.Add(new PatientAgeGroup(PatientAge._70_, "Over 70 Years",
-                        100 * numberOfPatientsGroup_70_ / patientCount, numberOfPatientsGroup_70_));
-
                 }
-
-
-
             }
 
             _mainViewModel.NumberOfPatientOnSelectedMedicine = $"Number of patients taking selected medicine: {patientCount}";
         }
-
-
     }
 }

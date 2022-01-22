@@ -15,27 +15,12 @@ namespace MedicineTherapy.Views
     public class BaseView : UserControl, INotifyPropertyChanged
     {
 
-        //public ICommand RowEditEndingFunction
-        //{
-        //    get { return (ICommand)GetValue(RowEditEndingFunctionProperty); }
-        //    set { SetValue(RowEditEndingFunctionProperty, value); }
-        //}
-        //public static readonly DependencyProperty RowEditEndingFunctionProperty =
-        //    DependencyProperty.Register("RowEditEndingFunction", typeof(ICommand), typeof(BaseView), new PropertyMetadata(null));
-
-
-        //public ICommand FilterFunction
-        //{
-        //    get { return (ICommand)GetValue(FilterFunctionProperty); }
-        //    set { SetValue(FilterFunctionProperty, value); }
-        //}
-        //public static readonly DependencyProperty FilterFunctionProperty =
-        //    DependencyProperty.Register("FilterFunction", typeof(ICommand), typeof(BaseView), new PropertyMetadata(null));
+        public delegate void EventUpdateViewDelegate();
+        public EventUpdateViewDelegate EventUpdateView;
 
         public MainViewModel dataContext { get; set; }
 
         public ListCollectionView collectionView;
-
 
         private string _viewInfo;
         public string ViewInfo
@@ -53,19 +38,6 @@ namespace MedicineTherapy.Views
 
 
         public string ViewName { get; set; }
-
-        //private bool _dataChanged = false;
-        //public bool DataChanged
-        //{
-        //    get { return _dataChanged; }
-        //    set
-        //    {
-        //        _dataChanged = value;
-        //    }
-        //}
-
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

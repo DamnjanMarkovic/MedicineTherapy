@@ -1,24 +1,23 @@
-﻿using CustomControls;
-using DataModels;
+﻿using DataModels;
 using DataProvider;
 using MedicineTherapy.Commands;
 using MedicineTherapy.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
-    
+
 namespace MedicineTherapy.ViewModels
 {
     public class MainViewModel: ObservableObject
     {
+        
 
         #region Commands
         public ICommand MedicineViewSelectMedicine() => new MedicineViewSelectMedicine(this);
+        public ICommand PatientsViewSelectPatient() => new PatientsViewSelectPatient(this);
 
         #endregion
 
@@ -93,20 +92,6 @@ namespace MedicineTherapy.ViewModels
             }
         }
 
-        private ObservableCollection<MedicineTypeViewModel> _medicineTypeVMList = new ObservableCollection<MedicineTypeViewModel>();
-        public ObservableCollection<MedicineTypeViewModel> MedicineTypeVMList
-        {
-            get
-            {
-                return _medicineTypeVMList;
-            }
-            set
-            {
-                _medicineTypeVMList = value;
-                OnPropertyChanged(nameof(MedicineTypeVMList));
-            }
-        }
-
         private string _numberOfPatientOnSelectedMedicine;
         public string NumberOfPatientOnSelectedMedicine
         {
@@ -120,9 +105,22 @@ namespace MedicineTherapy.ViewModels
                 OnPropertyChanged(nameof(NumberOfPatientOnSelectedMedicine));
             }
         }
-
-        private ObservableCollection<PatientAgeGroup> _patientAgeGroupCollection = new ObservableCollection<PatientAgeGroup>();
-        public ObservableCollection<PatientAgeGroup> PatientAgeGroupCollection
+        private string _numberOfMedicinesOnSelectedPatient;
+        public string NumberOfMedicinesOnSelectedPatient
+        {
+            get
+            {
+                return _numberOfMedicinesOnSelectedPatient;
+            }
+            set
+            {
+                _numberOfMedicinesOnSelectedPatient = value;
+                OnPropertyChanged(nameof(NumberOfMedicinesOnSelectedPatient));
+            }
+        }
+        
+        private ObservableCollection<DataModels.PatientAgeGroupViewModel> _patientAgeGroupCollection = new ObservableCollection<DataModels.PatientAgeGroupViewModel>();
+        public ObservableCollection<DataModels.PatientAgeGroupViewModel> PatientAgeGroupCollection
         {
             get
             {
@@ -135,6 +133,19 @@ namespace MedicineTherapy.ViewModels
             }
         }
 
+        private ObservableCollection<MedicineTypeViewModel> _medicineTypeCollection = new ObservableCollection<MedicineTypeViewModel>();
+        public ObservableCollection<MedicineTypeViewModel> MedicineTypeCollection
+        {
+            get
+            {
+                return _medicineTypeCollection;
+            }
+            set
+            {
+                _medicineTypeCollection = value;
+                OnPropertyChanged(nameof(MedicineTypeCollection));
+            }
+        }
         #endregion
 
         #region Constructor
@@ -145,27 +156,33 @@ namespace MedicineTherapy.ViewModels
             _patients = archiveProvider.GetPatients();
             _medicines = archiveProvider.GetMedicines();
             _medicineTypes = archiveProvider.GetMedicineTypes();
-            SetMedicineTypeList();
+            SetPatientAgeGroupList();
+            SetMedicineTypesGroupList();
         }
 
-        #endregion
-
-
-        #region Functions
-        private void SetMedicineTypeList()
+        private void SetMedicineTypesGroupList()
         {
-            _medicineTypeVMList = new ObservableCollection<MedicineTypeViewModel>();
+
+            _medicineTypeCollection = new ObservableCollection<MedicineTypeViewModel>();
             _medicineTypes.ToList().ForEach(medicineTypeElement =>
             {
-                MedicineTypeViewModel medicineType = new MedicineTypeViewModel();
-                medicineType.MedicineType = medicineTypeElement.MedicineTyper.ToString();
-                medicineType.NumberOfMedicine = $"Number of medicals: {medicineTypeElement.MedicineList.Count}";                
+                MedicineTypeViewModel medicineType = new MedicineTypeViewModel
+                                        (medicineTypeElement.MedicineTyper.ToString(), medicineTypeElement.MedicineTyper);
 
-                medicineType.MedicineList = medicineTypeElement.MedicineList.ToList().Select(i => i.MedicineName).ToList();
-
-                _medicineTypeVMList.Add(medicineType);
+                _medicineTypeCollection.Add(medicineType);
             });
         }
+
+        private void SetPatientAgeGroupList()
+        {
+            _patientAgeGroupCollection.Add(new DataModels.PatientAgeGroupViewModel(PatientAge._40, "Under 40 Years"));
+            _patientAgeGroupCollection.Add(new DataModels.PatientAgeGroupViewModel(PatientAge._40_50, "40 - 50 Years"));
+            _patientAgeGroupCollection.Add(new DataModels.PatientAgeGroupViewModel(PatientAge._50_60, "50 - 60 Years"));
+            _patientAgeGroupCollection.Add(new DataModels.PatientAgeGroupViewModel(PatientAge._60_70, "60 - 70 Years"));
+            _patientAgeGroupCollection.Add(new DataModels.PatientAgeGroupViewModel(PatientAge._70_, "Over 70 Years"));
+        }
+
         #endregion
+
     }
 }

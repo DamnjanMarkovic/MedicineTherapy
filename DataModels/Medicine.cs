@@ -7,13 +7,27 @@ using System.Threading.Tasks;
 
 namespace DataModels
 {
-    public class Medicine
+    public class Medicine: ObservableObject
     {
         public int MedicineID { get; set; }
-        public string MedicineName { get; set; }
+
+        private string _medicineName;
+        public string MedicineName
+        {
+            get
+            {
+                return _medicineName;
+            }
+            set
+            {
+                _medicineName = value;
+                OnPropertyChanged(nameof(MedicineName));
+            }
+        }
+
         public MedicineTypeEnum MedicineType { get; set; }
 
-        public ObservableCollection<Patient>? patientList { get; set; } = new ObservableCollection<Patient>();
+        public ObservableCollection<Patient> patientList { get; set; } = new ObservableCollection<Patient>();
     }
 
     public enum MedicineTypeEnum

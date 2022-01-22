@@ -9,37 +9,39 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="BaseView_Loaded">
     <local:BaseView.Resources>
-        <converters:FilterMedicineTypeConverter  x:Key="FilterMedicineTypeConverter"/>
+        <converters:FilterPatientAgeConverter  x:Key="FilterPatientAgeConverter"/>
+        <converters:ObservableCollectionToMedicineNameConverter  x:Key="ObservableCollectionToMedicineNameConverter"/>
+        <converters:ListToStringConverter  x:Key="ListToStringConverter"/>
     </local:BaseView.Resources>
-
-
 
     <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="1000"/>
+            <ColumnDefinition Width="1240"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <ComboBox x:Name="comboMedicineTypes" Grid.Row="0" 
-                      ItemsSource="{Binding MedicineTypeVMList, UpdateSourceTrigger=PropertyChanged}" 
+            <ComboBox x:Name="comboPatientAgeGroups" Grid.Row="0" 
+                      ItemsSource="{Binding PatientAgeGroupCollection, UpdateSourceTrigger=PropertyChanged}" 
                       FontSize="20" 
                       HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center"
                       VerticalAlignment="Center" VerticalContentAlignment="Center"
-                      DisplayMemberPath="MedicineType" Height="50"                      
+                      DisplayMemberPath="PatientAgeGroupName" Height="50" SelectedIndex="0"     
+                      SelectionChanged="comboPatientAgeGroups_SelectionChanged"
                       />
-            <ComboBox Grid.Row="1" FontSize="20" 
+            <ComboBox x:Name="comboPatiens" Grid.Row="1" FontSize="20" 
                       HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center"
                       VerticalAlignment="Center" VerticalContentAlignment="Center"
-                      DisplayMemberPath="MedicineName" Height="50" SelectionChanged="ComboBox_SelectionChanged"                    
+                      DisplayMemberPath="DisplayPatientID" Height="50" 
+                      SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"             
                       >
                 <ComboBox.ItemsSource>
-                    <MultiBinding Converter="{StaticResource FilterMedicineTypeConverter}">
-                        <Binding Path="Medicines" />
-                        <Binding Path="SelectedItem" ElementName="comboMedicineTypes"/>
+                    <MultiBinding Converter="{StaticResource FilterPatientAgeConverter}">
+                        <Binding Path="Patients" />
+                        <Binding Path="SelectedItem" ElementName="comboPatientAgeGroups"/>
                     </MultiBinding>
                 </ComboBox.ItemsSource>
             </ComboBox>
@@ -51,20 +53,22 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <customcontrols:CustomTextBox x:Name="NumberOfPatientOnSelectedMedicine" Text="{Binding NumberOfPatientOnSelectedMedicine}"
-                                              Height="50" FontSize="18" Margin="10" HorizontalAlignment="Left" 
+                <customcontrols:CustomTextBox x:Name="NumberOfPatientOnSelectedMedicine" Text="{Binding NumberOfMedicinesOnSelectedPatient}"
+                                              Height="50" FontSize="18" Margin="10" HorizontalAlignment="Stretch" 
                                               HorizontalContentAlignment="Center"
-                                              VerticalContentAlignment="Center" Width="1000" />
+                                              VerticalContentAlignment="Center"  />
+
+
             </Grid>
             <Grid Grid.Row="1">
 
                 <Grid Margin="10">
 
-                    <ListView x:Name="listMedicineType" ItemsSource="{Binding PatientAgeGroupCollection}" 
-                          HorizontalAlignment="Stretch" 
+                    <ListView x:Name="listMedicineType" ItemsSource="{Binding MedicineTypeCollection}" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                   HorizontalContentAlignment="Stretch"
                                   Background="Transparent" 
-                                  BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"                   
+                                  BorderThickness="0"                   
                   >
                         <ListView.LayoutTransform>
                             <RotateTransform Angle="-90"/>
@@ -75,44 +79,55 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem" >
 
-                                            <Border x:Name="Border" SnapsToDevicePixels="true" Margin="10 1 0 1" 
+                                            <Border x:Name="Border" SnapsToDevicePixels="true" Margin="10 1" 
                                                     Background="#FF242424"
                                                     
-                                                    Width="180" Height="300"
+                                                    Width="170" Height="500"
                                                     >
                                                 <Grid >
                                                     <Grid.RowDefinitions>
+                                                        <RowDefinition Height="2*"/>
+                                                        <RowDefinition Height="2"/>
                                                         <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="5*"/>
                                                         <RowDefinition Height="*"/>
                                                         <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="6*"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <Label Grid.Row="0" Content="{Binding PatientAgeGroupName}" 
+                                                    <Label Grid.Row="0" Content="{Binding MedicineType}" 
                                              Background="Transparent" Foreground="White"
-                                             TextBlock.FontSize="20" Margin="10 1" VerticalAlignment="Center"
+                                             TextBlock.FontSize="20" VerticalAlignment="Center"
                                                           HorizontalContentAlignment="Center"    
                                                               />
-                                                    <ProgressBar Grid.Row="1" Minimum="0" Maximum="100" Margin="10" Height="50"
-                                                                 Foreground="Red"
-                                                                 Value="{Binding PercentageOfPatients}"
-                                                                 
-                                                                 >
-                                                        <ProgressBar.LayoutTransform>
-                                                            <RotateTransform Angle="-90"/>
-                                                        </ProgressBar.LayoutTransform>
-                                                    </ProgressBar>
+                                                    <Border Grid.Row="1" BorderBrush="White" BorderThickness="0 0 0 1"/>
+
                                                     <Label Grid.Row="2" HorizontalContentAlignment="Center"
-                                            Background="Transparent" Foreground="White" Content="{Binding PercentageOfPatients}" ContentStringFormat="{}{0} %"
-                                             TextBlock.FontSize="20" Margin="0" VerticalAlignment="Center"                                                              
+                                            Background="Transparent" Foreground="White" 
+                                                           Content="Number of meds: "
+                                             TextBlock.FontSize="16" Margin="0" VerticalAlignment="Center"                                                              
                                                               />
                                                     <Label Grid.Row="3" HorizontalContentAlignment="Center"
-                                            Background="Transparent" Foreground="White" Content="{Binding NumberOfPatients}" ContentStringFormat="{}{0} patients."
-                                             TextBlock.FontSize="20" Margin="0" VerticalAlignment="Center"                                                              
+                                            Background="Transparent" Foreground="White" 
+                                                           Content="{Binding NumberOfMedicine}"
+                                             TextBlock.FontSize="16" Margin="0" VerticalAlignment="Center"                                                              
                                                               />
 
+                                                    <Border Grid.Row="4" BorderBrush="White" BorderThickness="0 0 0 1"/>
 
-
+                                                    <Label Grid.Row="5" HorizontalContentAlignment="Center"
+                                            Background="Transparent" Foreground="White" 
+                                                           Content="Meds list: " 
+                                             TextBlock.FontSize="16" Margin="0" VerticalAlignment="Center"                                                              
+                                                              />
+                                                    <Border Grid.Row="6" BorderBrush="White" BorderThickness="0 0 0 1" 
+                                                            Margin="20 0"/>
+                                                    <Label Grid.Row="7" HorizontalContentAlignment="Center"
+                                            Background="Transparent" Foreground="White" VerticalContentAlignment="Top"
+       Content="{Binding MedicinesNamesInType, Converter={StaticResource ObservableCollectionToMedicineNameConverter}}"
+                                             TextBlock.FontSize="16" Margin="0 15 0 0" VerticalAlignment="Top"                                                              
+                                                              />
 
                                                 </Grid>
                                                 <Border.LayoutTransform>
