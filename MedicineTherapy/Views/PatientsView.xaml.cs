@@ -41,7 +41,7 @@ namespace MedicineTherapy.Views
             {
                 PatientsViewSelectPatient = dataContext.PatientsViewSelectPatient();
                 EventUpdateView += UpdateView;
-                comboPatientAgeGroups.SelectedIndex = 0;
+                comboPatientAgeGroups.SelectedIndex = comboPatientAgeGroups.Items.Count -1;
                 comboPatiens.SelectedIndex = 0;
             }
         }
@@ -62,7 +62,15 @@ namespace MedicineTherapy.Views
 
         private void comboPatientAgeGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            comboPatiens.SelectedIndex = 0;
+            if (comboPatiens.Items.Count > 0)
+            {
+                comboPatiens.SelectedIndex = 0;
+            }
+            else
+            {
+                if (PatientsViewSelectPatient != null)
+                    PatientsViewSelectPatient.Execute(null);
+            }
         }
     }
 }

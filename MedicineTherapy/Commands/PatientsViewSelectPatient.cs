@@ -30,16 +30,16 @@ namespace MedicineTherapy.Commands
         {
 
             Patient patientSelected = parameter as Patient;
-            var medicineCount = 0;
+            var medicineCount = 0; 
+            
+            _mainViewModel.MedicineTypeCollection.ToList().ForEach(medicineTypeGroup =>
+            {
+                medicineTypeGroup.NumberOfMedicine = 0;
+                medicineTypeGroup.MedicinesInType.Clear();
+            });
             if (patientSelected != null)
             {
                 medicineCount = patientSelected.MedicineList.Count;
-
-                _mainViewModel.MedicineTypeCollection.ToList().ForEach(medicineTypeGroup =>
-                {
-                    medicineTypeGroup.NumberOfMedicine = 0;
-                    medicineTypeGroup.MedicinesInType.Clear();
-                });
 
 
                 if (medicineCount > 0)

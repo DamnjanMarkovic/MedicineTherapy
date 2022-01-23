@@ -82,7 +82,7 @@
                                             <Border x:Name="Border" SnapsToDevicePixels="true" Margin="10 1" 
                                                     Background="#FF242424"
                                                     
-                                                    Width="170" Height="500"
+                                                    Width="150" Height="500"
                                                     >
                                                 <Grid >
                                                     <Grid.RowDefinitions>
