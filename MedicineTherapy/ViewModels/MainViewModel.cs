@@ -176,6 +176,7 @@ namespace MedicineTherapy.ViewModels
         {
 
             _medicineTypeCollection = new ObservableCollection<MedicineTypeViewModel>();
+            if (_medicineTypes != null && _medicineTypes.Count > 0) { 
             _medicineTypes.ToList().ForEach(medicineTypeElement =>
             {
                 MedicineTypeViewModel medicineType = new MedicineTypeViewModel
@@ -183,6 +184,7 @@ namespace MedicineTherapy.ViewModels
 
                 _medicineTypeCollection.Add(medicineType);
             });
+            }
         }
 
         private void SetPatientAgeGroupList()
