@@ -38,7 +38,7 @@ namespace MedicineTherapy.Commands
                 _mainViewModel.MedicineTypeCollection.ToList().ForEach(medicineTypeGroup =>
                 {
                     medicineTypeGroup.NumberOfMedicine = 0;
-                    medicineTypeGroup.MedicinesNamesInType.Clear();
+                    medicineTypeGroup.MedicinesInType.Clear();
                 });
 
 
@@ -58,7 +58,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.NewAntiDiabetic)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             case MedicineTypeEnum.AntiDiabetic:
                                 _mainViewModel.MedicineTypeCollection
@@ -69,7 +69,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.AntiDiabetic)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
 
                                 break;
                             case MedicineTypeEnum.Insulin:
@@ -81,7 +81,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.Insulin)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             case MedicineTypeEnum.Dislipidemic:
                                 _mainViewModel.MedicineTypeCollection
@@ -92,7 +92,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.Dislipidemic)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             case MedicineTypeEnum.BloodPresure:
                                 _mainViewModel.MedicineTypeCollection
@@ -103,7 +103,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.BloodPresure)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             case MedicineTypeEnum.HeartMedicine:
                                 _mainViewModel.MedicineTypeCollection
@@ -114,7 +114,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.HeartMedicine)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             case MedicineTypeEnum.Other:
                                 _mainViewModel.MedicineTypeCollection
@@ -125,7 +125,7 @@ namespace MedicineTherapy.Commands
                                 _mainViewModel.MedicineTypeCollection
                                 .ToList()
                                 .Find(medicineTypeGroup => medicineTypeGroup.MedicineTypeEnum == MedicineTypeEnum.Other)
-                                .MedicinesNamesInType.Add(medicine);
+                                .MedicinesInType.Add(medicine);
                                 break;
                             default:
                                 break;

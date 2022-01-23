@@ -17,6 +17,7 @@ namespace MedicineTherapy.ViewModels
 
         #region Commands
         public ICommand MedicineViewSelectMedicine() => new MedicineViewSelectMedicine(this);
+        public ICommand MedicineTypeSelect() => new MedicineTypeSelect(this);
         public ICommand PatientsViewSelectPatient() => new PatientsViewSelectPatient(this);
 
         #endregion
@@ -158,6 +159,17 @@ namespace MedicineTherapy.ViewModels
             _medicineTypes = archiveProvider.GetMedicineTypes();
             SetPatientAgeGroupList();
             SetMedicineTypesGroupList();
+            SetMedicineInType();
+        }
+
+        public void SetMedicineInType()
+        {
+            _medicineTypeCollection.ToList().ForEach(medicineType =>
+            {
+                var medList = _medicines.ToList().FindAll(medicine => medicine.MedicineType.ToString() == medicineType.MedicineType);
+
+                medicineType.MedicinesInType = new ObservableCollection<Medicine>(medList);
+            });
         }
 
         private void SetMedicineTypesGroupList()

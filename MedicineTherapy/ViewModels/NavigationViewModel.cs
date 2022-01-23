@@ -86,7 +86,7 @@ namespace MedicineTherapy.ViewModels
             Views.Add(new PatientsView());
             //Views.Add(new PatientsAge());
             Views.Add(new MedicineView());
-            //Views.Add(new MedicineTypeView());
+            Views.Add(new MedicineTypeView());
 
         }
 

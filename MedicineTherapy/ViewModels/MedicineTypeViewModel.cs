@@ -20,7 +20,6 @@ namespace MedicineTherapy.ViewModels
 
         public MedicineTypeEnum MedicineTypeEnum { get; set; }
         public string MedicineType { get; set; }
-        //public int NumberOfMedicine { get; set; }
         private int _numberOfMedicine = 0;
         public int NumberOfMedicine
         {
@@ -35,17 +34,17 @@ namespace MedicineTherapy.ViewModels
             }
         }
 
-        private ObservableCollection<Medicine> _medicinesNamesInType = new ObservableCollection<Medicine>();
-        public ObservableCollection<Medicine> MedicinesNamesInType
+        private ObservableCollection<Medicine> _medicinesInType = new ObservableCollection<Medicine>();
+        public ObservableCollection<Medicine> MedicinesInType
         {
             get
             {
-                return _medicinesNamesInType;
+                return _medicinesInType;
             }
             set
             {
-                _medicinesNamesInType = value;
-                OnPropertyChanged(nameof(MedicinesNamesInType));
+                _medicinesInType = value;
+                OnPropertyChanged(nameof(MedicinesInType));
             }
         }
 

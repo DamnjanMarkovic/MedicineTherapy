@@ -125,7 +125,7 @@
                                                             Margin="20 0"/>
                                                     <Label Grid.Row="7" HorizontalContentAlignment="Center"
                                             Background="Transparent" Foreground="White" VerticalContentAlignment="Top"
-       Content="{Binding MedicinesNamesInType, Converter={StaticResource ObservableCollectionToMedicineNameConverter}}"
+       Content="{Binding MedicinesInType, Converter={StaticResource ObservableCollectionToMedicineNameConverter}}"
                                              TextBlock.FontSize="16" Margin="0 15 0 0" VerticalAlignment="Top"                                                              
                                                               />
 
